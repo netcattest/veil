@@ -1,0 +1,4 @@
+build/
+tor-bundle/
+*.exe
+*.pdb

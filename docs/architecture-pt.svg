@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="880" viewBox="0 0 1240 880">
+<defs>
+  <linearGradient id="page" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1B1428"/><stop offset="0.6" stop-color="#121119"/><stop offset="1" stop-color="#0C0C11"/></linearGradient>
+  <radialGradient id="blobA"><stop offset="0" stop-color="#7D4698" stop-opacity="0.55"/><stop offset="1" stop-color="#7D4698" stop-opacity="0"/></radialGradient>
+  <radialGradient id="blobB"><stop offset="0" stop-color="#2D63E0" stop-opacity="0.35"/><stop offset="1" stop-color="#2D63E0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="blobC"><stop offset="0" stop-color="#C2398F" stop-opacity="0.28"/><stop offset="1" stop-color="#C2398F" stop-opacity="0"/></radialGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.13"/><stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.05"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0.08"/></linearGradient>
+  <linearGradient id="rim" x1="0" y1="0" x2="0.7" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.55"/><stop offset="0.4" stop-color="#FFFFFF" stop-opacity="0.08"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0.25"/></linearGradient>
+  <linearGradient id="chain" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9B5DE5"/><stop offset="0.5" stop-color="#64D2FF"/><stop offset="1" stop-color="#30D158"/></linearGradient>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000" flood-opacity="0.45"/></filter>
+  <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="6"/></filter>
+  <marker id="arrowC9A2F7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#C9A2F7"/></marker>
+  <marker id="arrow7EE2A0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7EE2A0"/></marker>
+  <marker id="arrowFF9F0A" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#FF9F0A"/></marker>
+  <marker id="arrow64D2FF" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#64D2FF"/></marker>
+  
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#C08CFF"/><stop offset="0.5" stop-color="#7B45D6"/><stop offset="1" stop-color="#2E1666"/>
+    </linearGradient>
+    <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.42"/><stop offset="0.45" stop-color="#FFFFFF" stop-opacity="0.06"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="core" cx="0.5" cy="0.62" r="0.5">
+      <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EBDDFF"/>
+    </radialGradient>
+</defs>
+<style>
+  text { font-family: 'Segoe UI Variable Display','Segoe UI',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif; fill: #F5F5F7; }
+  .t { font-size: 34px; font-weight: 600; letter-spacing: -0.5px; }
+  .st { font-size: 15px; fill: #A9A6B4; }
+  .h { font-size: 18px; font-weight: 600; }
+  .s { font-size: 12.5px; fill: #A9A6B4; }
+  .i { font-size: 14px; font-weight: 600; }
+  .is { font-size: 12px; fill: #9C99A8; }
+  .m { font-family: 'Cascadia Mono', Consolas, 'SFMono-Regular', Menlo, monospace; font-size: 12px; fill: #D9C8F5; }
+  .lbl { font-size: 12.5px; font-weight: 600; fill: #DDBFFF; }
+  .lbls { font-size: 11.5px; fill: #A9A6B4; }
+  .f { font-size: 13px; fill: #8E8B98; }
+</style>
+<rect width="1240" height="880" rx="28" fill="url(#page)"/>
+<circle cx="160" cy="120" r="340" fill="url(#blobA)"/><circle cx="1080" cy="520" r="360" fill="url(#blobB)"/><circle cx="420" cy="860" r="320" fill="url(#blobC)"/>
+<g transform="translate(48 40) scale(0.21)">
+    <rect x="8" y="8" width="240" height="240" rx="58" fill="url(#bg)"/>
+    <rect x="8" y="8" width="240" height="240" rx="58" fill="url(#gloss)"/>
+    <path d="M128 44 C147 78 198 98 198 150 A70 70 0 0 1 58 150 C58 98 109 78 128 44 Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="11" stroke-linejoin="round"/>
+    <path d="M128 86 C141 107 170 121 170 153 A42 42 0 0 1 86 153 C86 121 115 107 128 86 Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.85" stroke-width="10" stroke-linejoin="round"/>
+    <path d="M128 124 C134 134 148 142 148 157 A20 20 0 0 1 108 157 C108 142 122 134 128 124 Z" fill="url(#core)"/></g>
+<text x="112" y="76" class="t">Como o Veil funciona</text>
+<text x="114" y="100" class="st">Um único executável · tudo roda localmente · nenhuma telemetria</text>
+<g><rect x="48" y="140" width="300" height="560" rx="22" fill="url(#glass)" stroke="url(#rim)" stroke-width="1.2" filter="url(#shadow)"/>
+<rect x="66" y="160" width="4" height="34" rx="2" fill="#9B5DE5"/>
+<text x="80" y="176" class="h">Veil.exe</text>
+<text x="80" y="194" class="s">C# · WPF · .NET Framework 4.8</text>
+</g>
+<rect x="66" y="232" width="264" height="92" rx="16" fill="#FFFFFF" fill-opacity="0.05" stroke="#FFFFFF" stroke-opacity="0.08"/>
+<rect x="82" y="258" width="40" height="40" rx="10" fill="#3478F6"/>
+<g transform="translate(90 266) scale(1)"><path d="M4,5 H20 V15 H4 Z M8,20 H16 M12,15 V20" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="138" y="274" class="i">Interface de vidro</text>
+<text x="138" y="294" class="is">WPF + acrílico do Windows 11</text>
+<rect x="66" y="344" width="264" height="92" rx="16" fill="#FFFFFF" fill-opacity="0.05" stroke="#FFFFFF" stroke-opacity="0.08"/>
+<rect x="82" y="370" width="40" height="40" rx="10" fill="#8E5BD9"/>
+<g transform="translate(90 378) scale(1)"><path d="M4,7 L12,3 L20,7 V17 L12,21 L4,17 Z M4,7 L12,11 L20,7 M12,11 V21" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="138" y="386" class="i">Recursos embutidos</text>
+<text x="138" y="406" class="is">tor.zip · 252 bandeiras · países</text>
+<rect x="66" y="456" width="264" height="92" rx="16" fill="#FFFFFF" fill-opacity="0.05" stroke="#FFFFFF" stroke-opacity="0.08"/>
+<rect x="82" y="482" width="40" height="40" rx="10" fill="#30B158"/>
+<g transform="translate(90 490) scale(1)"><path d="M3,17 H21 M6,17 V9 A6,6 0 0 1 18,9 V17 M10,20 H14" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="138" y="498" class="i">Bandeja do sistema</text>
+<text x="138" y="518" class="is">menu próprio com status ao vivo</text>
+<rect x="66" y="568" width="264" height="92" rx="16" fill="#FFFFFF" fill-opacity="0.05" stroke="#FFFFFF" stroke-opacity="0.08"/>
+<rect x="82" y="594" width="40" height="40" rx="10" fill="#FF9F0A"/>
+<g transform="translate(90 602) scale(1)"><path d="M12,8 A4,4 0 1 0 12.01,8 Z M12,2 V5 M12,19 V22 M2,12 H5 M19,12 H22" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="138" y="610" class="i">Configurações</text>
+<text x="138" y="630" class="is">%LOCALAPPDATA%\Veil</text>
+<g><rect x="392" y="140" width="270" height="118" rx="22" fill="url(#glass)" stroke="url(#rim)" stroke-width="1.2" filter="url(#shadow)"/>
+<rect x="410" y="160" width="4" height="34" rx="2" fill="#FF9F0A"/>
+<text x="424" y="176" class="h">bridges.torproject.org</text>
+<text x="424" y="194" class="s">API Moat (HTTPS)</text>
+</g>
+<text x="424" y="228" class="lbls">única consulta externa · só ao clicar em Buscar</text>
+<line x1="354" y1="200" x2="384" y2="200" stroke="#FF9F0A" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="7 6" marker-end="url(#arrowFF9F0A)"/>
+<g><rect x="392" y="300" width="270" height="400" rx="22" fill="url(#glass)" stroke="url(#rim)" stroke-width="1.2" filter="url(#shadow)"/>
+<rect x="410" y="320" width="4" height="34" rx="2" fill="#64D2FF"/>
+<text x="424" y="336" class="h">ControlPort</text>
+<text x="424" y="354" class="s">127.0.0.1:auto · cookie</text>
+</g>
+<rect x="410" y="374" width="234" height="26" rx="8" fill="#FFFFFF" fill-opacity="0.05"/>
+<text x="422" y="392" class="m">GETINFO circuit-status</text>
+<rect x="410" y="407" width="234" height="26" rx="8" fill="#FFFFFF" fill-opacity="0.05"/>
+<text x="422" y="425" class="m">GETINFO stream-status</text>
+<rect x="410" y="440" width="234" height="26" rx="8" fill="#FFFFFF" fill-opacity="0.05"/>
+<text x="422" y="458" class="m">GETINFO ns/id/&lt;fingerprint&gt;</text>
+<rect x="410" y="473" width="234" height="26" rx="8" fill="#FFFFFF" fill-opacity="0.05"/>
+<text x="422" y="491" class="m">GETINFO ip-to-country/&lt;ip&gt;</text>
+<rect x="410" y="506" width="234" height="26" rx="8" fill="#FFFFFF" fill-opacity="0.05"/>
+<text x="422" y="524" class="m">GETINFO traffic/read · written</text>
+<rect x="410" y="539" width="234" height="26" rx="8" fill="#FFFFFF" fill-opacity="0.05"/>
+<text x="422" y="557" class="m">GETINFO status/bootstrap-phase</text>
+<rect x="410" y="572" width="234" height="26" rx="8" fill="#FFFFFF" fill-opacity="0.05"/>
+<text x="422" y="590" class="m">GETINFO ns/all</text>
+<rect x="410" y="605" width="234" height="26" rx="8" fill="#FFFFFF" fill-opacity="0.05"/>
+<text x="422" y="623" class="m">SETCONF ExitNodes={cc}</text>
+<rect x="410" y="638" width="234" height="26" rx="8" fill="#FFFFFF" fill-opacity="0.05"/>
+<text x="422" y="656" class="m">SIGNAL NEWNYM</text>
+<line x1="354" y1="500" x2="384" y2="500" stroke="#64D2FF" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow64D2FF)"/>
+<line x1="384" y1="540" x2="354" y2="540" stroke="#64D2FF" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow64D2FF)"/>
+<circle r="4" fill="#64D2FF"><animateMotion dur="2.4s" begin="0s" repeatCount="indefinite" path="M384,540 L354,540"/><animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="0s" repeatCount="indefinite"/></circle>
+<g><rect x="706" y="140" width="270" height="260" rx="22" fill="url(#glass)" stroke="url(#rim)" stroke-width="1.2" filter="url(#shadow)"/>
+<rect x="724" y="160" width="4" height="34" rx="2" fill="#30D158"/>
+<text x="738" y="176" class="h">tor.exe</text>
+<text x="738" y="194" class="s">Tor 0.4.9.14 · Expert Bundle 15.0.26</text>
+</g>
+<circle cx="742" cy="236" r="5" fill="#30D158"/>
+<text x="758" y="240" class="i" font-size="13">SocksPort 127.0.0.1:9050</text>
+<circle cx="742" cy="282" r="5" fill="#30D158"/>
+<text x="758" y="286" class="i" font-size="13">GeoIP local (sem consulta externa)</text>
+<circle cx="742" cy="328" r="5" fill="#30D158"/>
+<text x="758" y="332" class="i" font-size="13">ExitNodes {país} · StrictNodes</text>
+<path d="M348 166 C 500 122, 620 122, 696 170" fill="none" stroke="#C9A2F7" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrowC9A2F7)"/>
+<text x="452" y="114" class="lbl">1 · extrai o Tor, gera o torrc e inicia</text>
+<text x="470" y="280" class="lbls" opacity="0">.</text>
+<line x1="698" y1="380" x2="670" y2="380" stroke="#64D2FF" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow64D2FF)"/>
+<line x1="670" y1="420" x2="698" y2="420" stroke="#64D2FF" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow64D2FF)"/>
+<circle r="4" fill="#64D2FF"><animateMotion dur="2.4s" begin="0.8s" repeatCount="indefinite" path="M698,380 L670,380"/><animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="0.8s" repeatCount="indefinite"/></circle>
+<g><rect x="706" y="430" width="270" height="150" rx="22" fill="url(#glass)" stroke="url(#rim)" stroke-width="1.2" filter="url(#shadow)"/>
+<rect x="724" y="450" width="4" height="34" rx="2" fill="#8E5BD9"/>
+<text x="738" y="466" class="h">Pluggable transports</text>
+<text x="738" y="484" class="s">lyrebird · conjure</text>
+</g>
+<rect x="728" y="504" width="55.0" height="26" rx="13" fill="#9B5DE5" fill-opacity="0.22" stroke="#C9A2F7" stroke-opacity="0.4"/>
+<text x="737" y="522" class="m" font-size="12">obfs4</text>
+<rect x="791.0" y="504" width="84.60000000000001" height="26" rx="13" fill="#9B5DE5" fill-opacity="0.22" stroke="#C9A2F7" stroke-opacity="0.4"/>
+<text x="800.0" y="522" class="m" font-size="12">webtunnel</text>
+<rect x="728" y="538" width="84.60000000000001" height="26" rx="13" fill="#9B5DE5" fill-opacity="0.22" stroke="#C9A2F7" stroke-opacity="0.4"/>
+<text x="737" y="556" class="m" font-size="12">snowflake</text>
+<rect x="820.6" y="538" width="47.6" height="26" rx="13" fill="#9B5DE5" fill-opacity="0.22" stroke="#C9A2F7" stroke-opacity="0.4"/>
+<text x="829.6" y="556" class="m" font-size="12">meek</text>
+<line x1="841.0" y1="404" x2="841.0" y2="426" stroke="#C9A2F7" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrowC9A2F7)"/>
+<g><rect x="706" y="610" width="270" height="90" rx="22" fill="url(#glass)" stroke="url(#rim)" stroke-width="1.2" filter="url(#shadow)"/>
+<rect x="724" y="630" width="4" height="34" rx="2" fill="#0A84FF"/>
+<text x="738" y="646" class="h">Seus apps</text>
+<text x="738" y="664" class="s">navegador, curl, qualquer app</text>
+</g>
+<line x1="841.0" y1="606" x2="841.0" y2="586" stroke="#7EE2A0" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow7EE2A0)"/>
+<text x="851.0" y="600" class="lbl" fill="#9BF5B4">SOCKS5</text>
+<g><rect x="1012" y="140" width="190" height="560" rx="22" fill="url(#glass)" stroke="url(#rim)" stroke-width="1.2" filter="url(#shadow)"/>
+<rect x="1030" y="160" width="4" height="20" rx="2" fill="#9B5DE5"/>
+<text x="1044" y="176" class="h">Rede Tor</text>
+</g>
+<rect x="1056" y="250" width="4" height="390" rx="2" fill="url(#chain)" opacity="0.75"/>
+<circle cx="1058" cy="250" r="18" fill="#9B5DE5" opacity="0.35" filter="url(#glow)"/>
+<circle cx="1058" cy="250" r="9" fill="#9B5DE5" stroke="#FFF" stroke-opacity="0.7" stroke-width="2"/>
+<text x="1084" y="255" class="i">Guarda / Ponte</text>
+<circle cx="1058" cy="380" r="18" fill="#64D2FF" opacity="0.35" filter="url(#glow)"/>
+<circle cx="1058" cy="380" r="9" fill="#64D2FF" stroke="#FFF" stroke-opacity="0.7" stroke-width="2"/>
+<text x="1084" y="385" class="i">Relay do meio</text>
+<circle cx="1058" cy="510" r="18" fill="#30D158" opacity="0.35" filter="url(#glow)"/>
+<circle cx="1058" cy="510" r="9" fill="#30D158" stroke="#FFF" stroke-opacity="0.7" stroke-width="2"/>
+<text x="1084" y="515" class="i">Saída</text>
+<circle cx="1058" cy="640" r="18" fill="#8E8E93" opacity="0.35" filter="url(#glow)"/>
+<circle cx="1058" cy="640" r="9" fill="#8E8E93" stroke="#FFF" stroke-opacity="0.7" stroke-width="2"/>
+<text x="1084" y="645" class="i">Internet</text>
+<text x="1084" y="664" class="is">os sites veem o IP da saída</text>
+<circle r="4" fill="#9B5DE5"><animateMotion dur="2.4s" begin="0.0s" repeatCount="indefinite" path="M1058,264 L1058,366"/><animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="0.0s" repeatCount="indefinite"/></circle>
+<circle r="4" fill="#64D2FF"><animateMotion dur="2.4s" begin="0.5s" repeatCount="indefinite" path="M1058,394 L1058,496"/><animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="0.5s" repeatCount="indefinite"/></circle>
+<circle r="4" fill="#30D158"><animateMotion dur="2.4s" begin="1.0s" repeatCount="indefinite" path="M1058,524 L1058,626"/><animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="1.0s" repeatCount="indefinite"/></circle>
+<path d="M980 230 C 996 240, 992 240, 1036 250" fill="none" stroke="#C9A2F7" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrowC9A2F7)"/>
+<rect x="48" y="736" width="1144" height="96" rx="20" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.08"/>
+<line x1="76" y1="770" x2="102" y2="770" stroke="#C9A2F7" stroke-width="3" stroke-linecap="round"/>
+<text x="112" y="775" class="s">tor.exe dentro de um Job Object</text>
+<line x1="350.4" y1="770" x2="376.4" y2="770" stroke="#64D2FF" stroke-width="3" stroke-linecap="round"/>
+<text x="386.4" y="775" class="s">ControlPort · dados ao vivo do circuito</text>
+<line x1="676.0" y1="770" x2="702.0" y2="770" stroke="#7EE2A0" stroke-width="3" stroke-linecap="round"/>
+<text x="712.0" y="775" class="s">SOCKS5</text>
+<line x1="790.4" y1="770" x2="816.4" y2="770" stroke="#FF9F0A" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5"/>
+<text x="826.4" y="775" class="s">Moat · só ao clicar em Buscar</text>
+<text x="76" y="808" class="f">Bandeiras, nomes de países e GeoIP vêm embutidos. A contagem de saídas por país é calculada a partir do consenso local do Tor.</text>
+</svg>

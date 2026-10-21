@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="160" viewBox="0 0 560 160">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#C08CFF"/><stop offset="0.5" stop-color="#7B45D6"/><stop offset="1" stop-color="#2E1666"/>
+    </linearGradient>
+    <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.42"/><stop offset="0.45" stop-color="#FFFFFF" stop-opacity="0.06"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="core" cx="0.5" cy="0.62" r="0.5">
+      <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EBDDFF"/>
+    </radialGradient>
+  </defs>
+  <g transform="translate(16 16) scale(0.5)">
+    <rect x="8" y="8" width="240" height="240" rx="58" fill="url(#bg)"/>
+    <rect x="8" y="8" width="240" height="240" rx="58" fill="url(#gloss)"/>
+    <path d="M128 44 C147 78 198 98 198 150 A70 70 0 0 1 58 150 C58 98 109 78 128 44 Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="11" stroke-linejoin="round"/>
+    <path d="M128 86 C141 107 170 121 170 153 A42 42 0 0 1 86 153 C86 121 115 107 128 86 Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.85" stroke-width="10" stroke-linejoin="round"/>
+    <path d="M128 124 C134 134 148 142 148 157 A20 20 0 0 1 108 157 C108 142 122 134 128 124 Z" fill="url(#core)"/>
+  </g>
+  <text x="172" y="96" font-family="'Segoe UI Variable Display','Segoe UI',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif" font-size="76" font-weight="600" letter-spacing="-1.5" fill="#1C1B22">Veil</text>
+  <text x="176" y="128" font-family="'Segoe UI Variable Display','Segoe UI',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif" font-size="17" font-weight="500" fill="#6E6B78">Tor, bonito e simples · by NetCat Test</text>
+</svg>
