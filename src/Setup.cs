@@ -20,8 +20,8 @@ using Microsoft.Win32;
 [assembly: AssemblyCompany("NetCat Test")]
 [assembly: AssemblyProduct("Veil")]
 [assembly: AssemblyCopyright("NetCat Test · netcattest.com")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]
 
 namespace VeilSetup
 {
@@ -30,6 +30,7 @@ namespace VeilSetup
         [STAThread]
         static void Main(string[] args)
         {
+            Text.Use(args);
             bool uninstall = args.Any(a => a.Equals("/uninstall", StringComparison.OrdinalIgnoreCase));
             bool quiet = args.Any(a => a.Equals("/silent", StringComparison.OrdinalIgnoreCase));
             if (quiet)
@@ -45,7 +46,16 @@ namespace VeilSetup
 
     static class Text
     {
-        static readonly bool Pt = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "pt";
+        static bool Pt = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "pt";
+
+        public static void Use(string[] args)
+        {
+            foreach (var a in args)
+            {
+                if (a.Equals("/lang=en", StringComparison.OrdinalIgnoreCase)) Pt = false;
+                if (a.Equals("/lang=pt", StringComparison.OrdinalIgnoreCase)) Pt = true;
+            }
+        }
 
         static readonly Dictionary<string, string[]> T = new Dictionary<string, string[]>
         {
@@ -83,7 +93,7 @@ namespace VeilSetup
 
     static class Installer
     {
-        public const string Version = "1.0";
+        public const string Version = "1.1";
         static string Local { get { return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData); } }
         public static string Dir { get { return Path.Combine(Local, "Programs", "Veil"); } }
         public static string Exe { get { return Path.Combine(Dir, "Veil.exe"); } }
@@ -157,6 +167,12 @@ namespace VeilSetup
             foreach (var link in new[] { StartMenuLink, DesktopLink })
                 try { if (File.Exists(link)) File.Delete(link); } catch { }
             try { Registry.CurrentUser.DeleteSubKeyTree(UninstallKey, false); } catch { }
+            try
+            {
+                using (var run = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
+                    if (run != null) run.DeleteValue("Veil", false);
+            }
+            catch { }
             try { if (File.Exists(Exe)) File.Delete(Exe); } catch { }
             if (removeData)
                 try { if (Directory.Exists(DataDir)) Directory.Delete(DataDir, true); } catch { }

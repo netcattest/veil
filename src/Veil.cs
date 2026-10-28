@@ -35,18 +35,19 @@ using WF = System.Windows.Forms;
 [assembly: AssemblyCompany("NetCat Test")]
 [assembly: AssemblyProduct("Veil")]
 [assembly: AssemblyCopyright("NetCat Test · netcattest.com")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]
 
 namespace Veil
 {
     static class Program
     {
-        public const string Version = "1.0";
+        public const string Version = "1.1";
 
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+            bool startup = args.Any(a => a.Equals("--startup", StringComparison.OrdinalIgnoreCase));
             bool created;
             using (var mutex = new Mutex(true, "Veil_SingleInstance", out created))
             using (var showSignal = new EventWaitHandle(false, EventResetMode.AutoReset, "Veil_Show"))
@@ -77,7 +78,7 @@ namespace Veil
                         win.Dispatcher.BeginInvoke(new Action(win.ShowFromTray));
                 }) { IsBackground = true };
                 listener.Start();
-                win.Show();
+                if (!startup) win.Show();
                 app.Run();
             }
         }
@@ -169,7 +170,43 @@ namespace Veil
             { "settings",       new[] { "Ajustes", "Settings" } },
             { "hdr_lang",       new[] { "IDIOMA", "LANGUAGE" } },
             { "lang_auto",      new[] { "Sistema", "System" } },
-            { "hdr_behavior",   new[] { "COMPORTAMENTO", "BEHAVIOR" } },
+            { "hdr_general",    new[] { "GERAL", "GENERAL" } },
+            { "lang",           new[] { "Idioma", "Language" } },
+            { "autostart",      new[] { "Iniciar com o Windows", "Start with Windows" } },
+            { "autostart_d",    new[] { "Abre escondido na bandeja ao entrar no Windows", "Opens hidden in the tray when you sign in" } },
+            { "hdr_network",    new[] { "REDE TOR", "TOR NETWORK" } },
+            { "stat_relays",    new[] { "RELAYS", "RELAYS" } },
+            { "stat_exits",     new[] { "SAÍDAS", "EXITS" } },
+            { "stat_guards",    new[] { "GUARDAS", "GUARDS" } },
+            { "stat_countries", new[] { "PAÍSES", "COUNTRIES" } },
+            { "stat_bw",        new[] { "BANDA TOTAL", "TOTAL BANDWIDTH" } },
+            { "stat_version",   new[] { "VERSÃO MAIS USADA", "TOP VERSION" } },
+            { "net_note",       new[] { "Dados do consenso local do Tor, válido até {0} UTC. Nenhuma consulta externa.", "From Tor's local consensus, valid until {0} UTC. No external requests." } },
+            { "net_none",       new[] { "Conecte-se uma vez para baixar os dados da rede. Depois eles ficam disponíveis mesmo com o Tor desligado.", "Connect once to download the network data. After that it works even with Tor off." } },
+            { "hdr_relays",     new[] { "PESQUISA DE RELAYS", "RELAY SEARCH" } },
+            { "relay_search",   new[] { "Nome, IP, fingerprint ou país…", "Name, IP, fingerprint or country…" } },
+            { "rel_all",        new[] { "Todos", "All" } },
+            { "rel_exit",       new[] { "Saída", "Exit" } },
+            { "rel_guard",      new[] { "Guarda", "Guard" } },
+            { "relay_count",    new[] { "{0} de {1}", "{0} of {1}" } },
+            { "relay_fp",       new[] { "FINGERPRINT", "FINGERPRINT" } },
+            { "relay_addr",     new[] { "ENDEREÇO", "ADDRESS" } },
+            { "relay_bw",       new[] { "BANDA", "BANDWIDTH" } },
+            { "relay_v6",       new[] { "IPV6", "IPV6" } },
+            { "relay_version",  new[] { "VERSÃO", "VERSION" } },
+            { "relay_copied",   new[] { "Fingerprint copiado", "Fingerprint copied" } },
+            { "f_Exit",         new[] { "Saída", "Exit" } },
+            { "f_Guard",        new[] { "Guarda", "Guard" } },
+            { "f_Fast",         new[] { "Rápido", "Fast" } },
+            { "f_Stable",       new[] { "Estável", "Stable" } },
+            { "f_Running",      new[] { "Ativo", "Running" } },
+            { "f_Valid",        new[] { "Válido", "Valid" } },
+            { "f_HSDir",        new[] { "HSDir", "HSDir" } },
+            { "f_V2Dir",        new[] { "Diretório", "Directory" } },
+            { "f_BadExit",      new[] { "Saída ruim", "Bad exit" } },
+            { "f_Authority",    new[] { "Autoridade", "Authority" } },
+            { "f_MiddleOnly",   new[] { "Só meio", "Middle only" } },
+            { "f_StaleDesc",    new[] { "Descritor antigo", "Stale descriptor" } },
             { "tray",           new[] { "Manter na bandeja", "Keep in tray" } },
             { "tray_d",         new[] { "Ao fechar, o Veil continua rodando ao lado do relógio", "When closed, Veil keeps running next to the clock" } },
             { "hdr_about",      new[] { "SOBRE", "ABOUT" } },
@@ -515,6 +552,161 @@ namespace Veil
         }
     }
 
+    static class Autostart
+    {
+        const string RunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
+
+        public static bool Enabled
+        {
+            get
+            {
+                using (var k = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RunKey))
+                    return k != null && k.GetValue("Veil") != null;
+            }
+        }
+
+        public static void Set(bool on)
+        {
+            using (var k = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(RunKey))
+            {
+                if (on) k.SetValue("Veil", "\"" + Process.GetCurrentProcess().MainModule.FileName + "\" --startup");
+                else k.DeleteValue("Veil", false);
+            }
+        }
+    }
+
+    static class GeoIp
+    {
+        static uint[] lows, highs;
+        static string[] codes;
+        static readonly object gate = new object();
+
+        public static void Load(string path)
+        {
+            lock (gate)
+            {
+                if (lows != null || !File.Exists(path)) return;
+                var lo = new List<uint>();
+                var hi = new List<uint>();
+                var cc = new List<string>();
+                foreach (var line in File.ReadLines(path))
+                {
+                    if (line.Length == 0 || line[0] == '#') continue;
+                    var p = line.Split(',');
+                    uint a, b;
+                    if (p.Length == 3 && uint.TryParse(p[0], out a) && uint.TryParse(p[1], out b))
+                    {
+                        lo.Add(a);
+                        hi.Add(b);
+                        cc.Add(p[2].Trim().ToLowerInvariant());
+                    }
+                }
+                highs = hi.ToArray();
+                codes = cc.ToArray();
+                lows = lo.ToArray();
+            }
+        }
+
+        public static string Country(string ip)
+        {
+            IPAddress addr;
+            if (lows == null || !IPAddress.TryParse(ip, out addr) || addr.AddressFamily != AddressFamily.InterNetwork) return "";
+            var b = addr.GetAddressBytes();
+            uint v = ((uint)b[0] << 24) | ((uint)b[1] << 16) | ((uint)b[2] << 8) | b[3];
+            int i = Array.BinarySearch(lows, v);
+            if (i < 0) i = ~i - 1;
+            return i >= 0 && v <= highs[i] && codes[i] != "??" ? codes[i] : "";
+        }
+    }
+
+    class RelayEntry
+    {
+        public string Nick, Fingerprint, Ip, Ipv6 = "", Version = "", Country = "", Search = "";
+        public int OrPort;
+        public long Bandwidth;
+        public string[] Flags = new string[0];
+        public bool Exit, Guard;
+    }
+
+    class NetworkSnapshot
+    {
+        public List<RelayEntry> Relays = new List<RelayEntry>();
+        public string ValidUntil = "";
+        public string TopVersion = "";
+        public DateTime FileTime;
+    }
+
+    static class Consensus
+    {
+        public static string FilePath { get { return IOPath.Combine(TorFiles.DataDir, "cached-microdesc-consensus"); } }
+
+        public static NetworkSnapshot Load()
+        {
+            if (!File.Exists(FilePath)) return null;
+            GeoIp.Load(IOPath.Combine(TorFiles.DataDir, "geoip"));
+            var snap = new NetworkSnapshot { FileTime = File.GetLastWriteTimeUtc(FilePath) };
+            RelayEntry cur = null;
+            foreach (var raw in File.ReadLines(FilePath))
+            {
+                if (raw.StartsWith("r "))
+                {
+                    var p = raw.Split(' ');
+                    if (p.Length < 8) { cur = null; continue; }
+                    cur = new RelayEntry { Nick = p[1], Fingerprint = Fingerprint(p[2]), Ip = p[5] };
+                    int.TryParse(p[6], out cur.OrPort);
+                    cur.Country = GeoIp.Country(cur.Ip);
+                    snap.Relays.Add(cur);
+                }
+                else if (cur == null)
+                {
+                    if (raw.StartsWith("valid-until ")) snap.ValidUntil = raw.Substring(12);
+                }
+                else if (raw.StartsWith("a "))
+                {
+                    if (cur.Ipv6.Length == 0) cur.Ipv6 = raw.Substring(2);
+                }
+                else if (raw.StartsWith("s "))
+                {
+                    cur.Flags = raw.Substring(2).Split(' ');
+                    cur.Exit = cur.Flags.Contains("Exit") && !cur.Flags.Contains("BadExit");
+                    cur.Guard = cur.Flags.Contains("Guard");
+                }
+                else if (raw.StartsWith("v ")) cur.Version = raw.Substring(2).Replace("Tor ", "");
+                else if (raw.StartsWith("w "))
+                {
+                    foreach (var kv in raw.Split(' '))
+                        if (kv.StartsWith("Bandwidth=")) long.TryParse(kv.Substring(10), out cur.Bandwidth);
+                }
+                else if (raw.StartsWith("directory-footer")) cur = null;
+            }
+            foreach (var r in snap.Relays)
+                r.Search = (r.Nick + " " + r.Ip + " " + r.Fingerprint + " " + r.Country + " " + r.Ipv6).ToLowerInvariant();
+            snap.TopVersion = snap.Relays.Where(r => r.Version.Length > 0).GroupBy(r => r.Version)
+                .OrderByDescending(g => g.Count()).Select(g => g.Key).FirstOrDefault() ?? "";
+            return snap;
+        }
+
+        static string Fingerprint(string b64)
+        {
+            try
+            {
+                while (b64.Length % 4 != 0) b64 += "=";
+                return BitConverter.ToString(Convert.FromBase64String(b64)).Replace("-", "");
+            }
+            catch { return b64; }
+        }
+    }
+
+    public class RelayItem
+    {
+        public string Name { get; set; }
+        public string Detail { get; set; }
+        public string Bandwidth { get; set; }
+        public string Badges { get; set; }
+        public Brush Flag { get; set; }
+        internal RelayEntry Entry;
+    }
+
     class ControlException : Exception
     {
         public ControlException(string msg) : base(msg) { }
@@ -682,7 +874,10 @@ namespace Veil
         RadioButton[] bridgeRows, tabs;
         RadioButton SegObfs4, SegWeb, SegAuto, SegPt, SegEn;
         CheckBox ChkTray;
-        FrameworkElement CustomPanel, BridgeCard, Overlay, Sheet, OverlayDim, CircuitEmpty;
+        FrameworkElement CustomPanel, BridgeCard, Overlay, Sheet, CircuitEmpty;
+        NetworkSnapshot network;
+        bool networkLoading;
+        System.Windows.Threading.DispatcherTimer relayTimer;
         FrameworkElement[] pages;
         StackPanel CircuitHost;
         FrameworkElement CountryLayer;
@@ -983,7 +1178,6 @@ namespace Veil
             BridgeCard = F<FrameworkElement>("BridgeCard");
             Overlay = F<FrameworkElement>("Overlay");
             Sheet = F<FrameworkElement>("Sheet");
-            OverlayDim = F<FrameworkElement>("OverlayDim");
             CircuitEmpty = F<FrameworkElement>("CircuitEmpty");
             CircuitHost = F<StackPanel>("CircuitHost");
             CountryLayer = F<FrameworkElement>("CountryLayer");
@@ -1074,15 +1268,14 @@ namespace Veil
 
         void Wire()
         {
-            foreach (var n in new[] { "BtnClose", "BtnMin", "BtnSettings" })
+            foreach (var n in new[] { "BtnClose", "BtnMin", "BtnSettings", "BtnSheetClose" })
                 WindowChrome.SetIsHitTestVisibleInChrome(F<IInputElement>(n), true);
             F<Button>("BtnClose").Click += (a, b) => Close();
             F<Button>("BtnMin").Click += (a, b) => WindowState = WindowState.Minimized;
             F<Button>("BtnSettings").Click += (a, b) => ShowSettings(true);
             F<Button>("BtnSheetClose").Click += (a, b) => ShowSettings(false);
-            F<Button>("BtnDone").Click += (a, b) => ShowSettings(false);
+            WireSettings();
             F<Button>("BtnQuitApp").Click += (a, b) => ExitApp();
-            OverlayDim.MouseLeftButtonUp += (a, b) => ShowSettings(false);
 
             BtnPower.Click += (a, b) => Toggle();
             F<Button>("BtnDetails").Click += (a, b) => ToggleDetails();
@@ -1250,21 +1443,189 @@ namespace Veil
 
         void ShowSettings(bool show)
         {
-            var scale = (ScaleTransform)Sheet.RenderTransform;
+            var shift = F<TranslateTransform>("SheetShift");
             if (show)
             {
+                CloseCountryPopup();
+                F<ScrollViewer>("SettingsScroll").ScrollToTop();
                 Overlay.Visibility = Visibility.Visible;
-                Fade(Overlay, 0, 1, 200);
-                var pop = new DoubleAnimation(0.92, 1, TimeSpan.FromMilliseconds(320)) { EasingFunction = new BackEase { Amplitude = 0.35, EasingMode = EasingMode.EaseOut } };
-                scale.BeginAnimation(ScaleTransform.ScaleXProperty, pop);
-                scale.BeginAnimation(ScaleTransform.ScaleYProperty, pop);
+                Fade(Overlay, 0, 1, 220);
+                shift.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(60, 0, TimeSpan.FromMilliseconds(380))
+                {
+                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+                });
+                F<CheckBox>("ChkAutostart").IsChecked = Autostart.Enabled;
+                LoadNetwork();
             }
             else
             {
-                var shrink = new DoubleAnimation(1, 0.95, TimeSpan.FromMilliseconds(160));
-                scale.BeginAnimation(ScaleTransform.ScaleXProperty, shrink);
-                scale.BeginAnimation(ScaleTransform.ScaleYProperty, shrink);
-                Fade(Overlay, 1, 0, 160, (a, b) => Overlay.Visibility = Visibility.Collapsed);
+                shift.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(0, 60, TimeSpan.FromMilliseconds(200))
+                {
+                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn }
+                });
+                Fade(Overlay, 1, 0, 200, (a, b) => Overlay.Visibility = Visibility.Collapsed);
+            }
+        }
+
+        bool autostartSync;
+
+        void WireSettings()
+        {
+            var scroll = F<ScrollViewer>("SettingsScroll");
+            scroll.ScrollChanged += (a, b) => F<UIElement>("TxtSettingsTitle").Opacity = Math.Min(1, Math.Max(0, (scroll.VerticalOffset - 20) / 30));
+            Overlay.PreviewKeyDown += (a, e) => { if (e.Key == Key.Escape) { ShowSettings(false); e.Handled = true; } };
+
+            var auto = F<CheckBox>("ChkAutostart");
+            auto.IsChecked = Autostart.Enabled;
+            RoutedEventHandler toggle = (a, b) =>
+            {
+                if (autostartSync) return;
+                try { Autostart.Set(auto.IsChecked == true); }
+                catch (Exception ex)
+                {
+                    Log(ex.Message);
+                    autostartSync = true;
+                    auto.IsChecked = Autostart.Enabled;
+                    autostartSync = false;
+                }
+            };
+            auto.Checked += toggle;
+            auto.Unchecked += toggle;
+
+            var search = F<TextBox>("TxtRelaySearch");
+            relayTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(160) };
+            relayTimer.Tick += (a, b) => { relayTimer.Stop(); FillRelays(); };
+            search.TextChanged += (a, b) =>
+            {
+                F<UIElement>("PhRelaySearch").Visibility = search.Text.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
+                relayTimer.Stop();
+                relayTimer.Start();
+            };
+            foreach (var n in new[] { "SegRelAll", "SegRelExit", "SegRelGuard" })
+                F<RadioButton>(n).Checked += (a, b) => FillRelays();
+            var list = F<ListBox>("RelayList");
+            list.SelectionChanged += (a, b) =>
+            {
+                var item = list.SelectedItem as RelayItem;
+                if (item != null) ShowRelay(item.Entry);
+            };
+            F<Button>("BtnCopyFp").Click += (a, b) =>
+            {
+                try { Clipboard.SetText(F<TextBlock>("RelayFp").Text.Replace(" ", "")); } catch { }
+                F<TextBlock>("LblRelayFp").Text = I18n.S("relay_copied");
+                var t = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(1300) };
+                t.Tick += (x, y) => { t.Stop(); F<TextBlock>("LblRelayFp").Text = I18n.S("relay_fp"); };
+                t.Start();
+            };
+        }
+
+        void LoadNetwork()
+        {
+            if (networkLoading) return;
+            var file = Consensus.FilePath;
+            if (network != null && (!File.Exists(file) || File.GetLastWriteTimeUtc(file) == network.FileTime)) return;
+            networkLoading = true;
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                NetworkSnapshot snap = null;
+                try { snap = Consensus.Load(); } catch { }
+                Ui(() =>
+                {
+                    networkLoading = false;
+                    if (snap != null) network = snap;
+                    RenderNetwork();
+                });
+            });
+        }
+
+        void RenderNetwork()
+        {
+            var note = F<TextBlock>("TxtNetNote");
+            if (network == null || network.Relays.Count == 0)
+            {
+                note.Text = I18n.S("net_none");
+                F<TextBlock>("TxtRelayCount").Text = "";
+                F<ListBox>("RelayList").ItemsSource = null;
+                return;
+            }
+            var r = network.Relays;
+            F<TextBlock>("StatRelays").Text = r.Count.ToString("N0");
+            F<TextBlock>("StatExits").Text = r.Count(x => x.Exit).ToString("N0");
+            F<TextBlock>("StatGuards").Text = r.Count(x => x.Guard).ToString("N0");
+            F<TextBlock>("StatCountries").Text = r.Where(x => x.Country.Length > 0).Select(x => x.Country).Distinct().Count().ToString();
+            F<TextBlock>("StatBandwidth").Text = Bytes(r.Sum(x => (double)x.Bandwidth) * 1024) + "/s";
+            F<TextBlock>("StatVersion").Text = network.TopVersion.Length > 0 ? network.TopVersion : "—";
+            note.Text = I18n.S("net_note", network.ValidUntil);
+            FillRelays();
+        }
+
+        void FillRelays()
+        {
+            var list = F<ListBox>("RelayList");
+            if (network == null) return;
+            string q = F<TextBox>("TxtRelaySearch").Text.Trim().ToLowerInvariant();
+            bool exits = F<RadioButton>("SegRelExit").IsChecked == true;
+            bool guards = F<RadioButton>("SegRelGuard").IsChecked == true;
+            IEnumerable<RelayEntry> found = network.Relays;
+            if (exits) found = found.Where(x => x.Exit);
+            if (guards) found = found.Where(x => x.Guard);
+            if (q.Length > 0)
+            {
+                string folded = Fold(q);
+                var byName = Countries.Codes.Where(c => Fold(Countries.Name(c)).Contains(folded)).ToList();
+                found = found.Where(x => x.Search.Contains(q) || (x.Country.Length > 0 && byName.Contains(x.Country)));
+            }
+            var all = found.OrderByDescending(x => x.Bandwidth).ToList();
+            var items = all.Take(300).Select(x => new RelayItem
+            {
+                Name = x.Nick,
+                Detail = x.Ip + "  ·  " + (x.Country.Length > 0 ? Countries.Name(x.Country) : "—"),
+                Bandwidth = Bytes(x.Bandwidth * 1024.0) + "/s",
+                Badges = string.Join(" · ", new[] { x.Exit ? I18n.S("f_Exit") : null, x.Guard ? I18n.S("f_Guard") : null }.Where(v => v != null).ToArray()),
+                Flag = Countries.Flag(x.Country),
+                Entry = x
+            }).ToList();
+            list.ItemsSource = items;
+            F<TextBlock>("TxtRelayCount").Text = I18n.S("relay_count", all.Count.ToString("N0"), network.Relays.Count.ToString("N0"));
+            if (items.Count == 0) F<UIElement>("RelayDetail").Visibility = Visibility.Collapsed;
+        }
+
+        void ShowRelay(RelayEntry r)
+        {
+            var detail = F<FrameworkElement>("RelayDetail");
+            bool wasHidden = detail.Visibility != Visibility.Visible;
+            detail.Visibility = Visibility.Visible;
+            F<Border>("RelayFlag").Background = Countries.Flag(r.Country);
+            F<TextBlock>("RelayNick").Text = r.Nick;
+            F<TextBlock>("RelayWhere").Text = r.Country.Length > 0 ? Countries.Name(r.Country) : I18n.S("unknown_country");
+            var fp = r.Fingerprint;
+            F<TextBlock>("RelayFp").Text = string.Join(" ", Enumerable.Range(0, fp.Length / 4).Select(i => fp.Substring(i * 4, 4)).ToArray());
+            F<TextBlock>("RelayAddr").Text = r.Ip + ":" + r.OrPort;
+            F<TextBlock>("RelayBw").Text = Bytes(r.Bandwidth * 1024.0) + "/s";
+            F<TextBlock>("RelayV6").Text = r.Ipv6.Length > 0 ? r.Ipv6 : "—";
+            F<TextBlock>("RelayVersion").Text = r.Version.Length > 0 ? r.Version : "—";
+            var badges = F<WrapPanel>("RelayBadges");
+            badges.Children.Clear();
+            foreach (var f in r.Flags)
+            {
+                Color c = f == "Exit" ? Green : f == "Guard" ? Purple : f == "BadExit" ? Red : Color.FromRgb(0x8E, 0x8E, 0x93);
+                string key = "f_" + f;
+                string label = I18n.S(key);
+                badges.Children.Add(new Border
+                {
+                    CornerRadius = new CornerRadius(9),
+                    Padding = new Thickness(9, 3, 9, 3),
+                    Margin = new Thickness(0, 0, 6, 6),
+                    Background = new SolidColorBrush(Color.FromArgb(0x33, c.R, c.G, c.B)),
+                    BorderBrush = new SolidColorBrush(Color.FromArgb(0x66, c.R, c.G, c.B)),
+                    BorderThickness = new Thickness(1),
+                    Child = new TextBlock { Text = label == key ? f : label, FontSize = 11, FontWeight = FontWeights.SemiBold }
+                });
+            }
+            if (wasHidden)
+            {
+                detail.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(240)));
+                Dispatcher.BeginInvoke(new Action(() => detail.BringIntoView()), System.Windows.Threading.DispatcherPriority.Loaded);
             }
         }
 
@@ -1298,9 +1659,15 @@ namespace Veil
                 { "LblCustom", "custom" }, { "DescCustom", "custom_d" },
                 { "HdrCustom", "hdr_custom" }, { "LblFetch", "fetch" }, { "PhBridges", "placeholder" },
                 { "HdrLog", "hdr_log" }, { "LblLogCopy", "copy" }, { "LblLogClear", "clear" },
-                { "TxtSettingsTitle", "settings" }, { "HdrLang", "hdr_lang" },
-                { "HdrBehavior", "hdr_behavior" }, { "LblTray", "tray" }, { "DescTray", "tray_d" },
-                { "HdrAbout", "hdr_about" }, { "LblDone", "done" }, { "LblQuitApp", "quit_app" },
+                { "TxtSettingsTitle", "settings" }, { "TxtSettingsBig", "settings" }, { "HdrLang", "lang" },
+                { "HdrGeneral", "hdr_general" }, { "LblTray", "tray" }, { "DescTray", "tray_d" },
+                { "LblAutostart", "autostart" }, { "DescAutostart", "autostart_d" },
+                { "HdrNetwork", "hdr_network" }, { "LblStatRelays", "stat_relays" }, { "LblStatExits", "stat_exits" },
+                { "LblStatGuards", "stat_guards" }, { "LblStatCountries", "stat_countries" }, { "LblStatBandwidth", "stat_bw" },
+                { "LblStatVersion", "stat_version" }, { "HdrRelays", "hdr_relays" }, { "PhRelaySearch", "relay_search" },
+                { "LblRelayFp", "relay_fp" }, { "LblRelayAddr", "relay_addr" }, { "LblRelayBw", "relay_bw" },
+                { "LblRelayV6", "relay_v6" }, { "LblRelayVersion", "relay_version" },
+                { "HdrAbout", "hdr_about" }, { "LblQuitApp", "quit_app" },
             };
             foreach (var kv in map)
             {
@@ -1308,6 +1675,10 @@ namespace Veil
                 if (tb != null) tb.Text = I18n.S(kv.Value);
             }
             SegAuto.Content = I18n.S("lang_auto");
+            F<RadioButton>("SegRelAll").Content = I18n.S("rel_all");
+            F<RadioButton>("SegRelExit").Content = I18n.S("rel_exit");
+            F<RadioButton>("SegRelGuard").Content = I18n.S("rel_guard");
+            if (network != null) RenderNetwork();
             F<TextBlock>("LblDetails").Text = I18n.S(detailsOpen ? "details_hide" : "details_show");
             F<Run>("LnkSiteText").Text = I18n.S("open_site");
             F<TextBlock>("TxtAbout1").Text = "Veil";
@@ -1552,8 +1923,9 @@ namespace Veil
         public void ShowFromTray()
         {
             bool wasHidden = !IsVisible;
+            bool firstShow = !IsLoaded;
             Show();
-            if (wasHidden) AnimateIn();
+            if (wasHidden && !firstShow) AnimateIn();
             if (WindowState == WindowState.Minimized) WindowState = WindowState.Normal;
             Activate();
             Topmost = true;

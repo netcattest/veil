@@ -8,18 +8,26 @@
 
 > O Windows SmartScreen pode avisar na primeira execução porque o executável ainda não tem assinatura digital. Clique em **Mais informações → Executar assim mesmo**.
 
-## ✨ Novidades
+## ✨ Novidades da 1.1
 
-- Tor Expert Bundle **15.0.26** (tor 0.4.9.14) embutido
-- Circuito ao vivo com bandeira, IP, país e banda de cada relay
-- Escolha do país de saída, com contagem real de relays de saída
-- Pontes obfs4, Snowflake, meek e personalizadas (busca obfs4/webtunnel no site oficial)
-- Bandeja com menu próprio, idiomas português e inglês
+- **Ajustes em tela cheia**, no estilo iOS, com seções Geral, Rede Tor, Pesquisa de relays e Sobre
+- **Iniciar com o Windows** (desligado por padrão): abre escondido na bandeja
+- **Pesquisa de relays**: busque por nome, IP, fingerprint ou país, filtre por Saída/Guarda e veja flags, banda, IPv6, versão e fingerprint (com botão de copiar)
+- **Dados da rede**: relays, saídas, guardas, países, banda total e versão mais usada, direto do consenso local, sem consulta externa
+- Instalador com idioma automático e remoção da inicialização automática ao desinstalar
+- Campo de busca alinhado e sem contorno de foco nos botões
 
 ---
 
 ## ⬇️ Download (English)
 
 **Veil-Setup.exe** installs for your user (no admin) with Start menu and desktop shortcuts and an entry in *Installed apps*. **Veil.exe** is the portable version. **SHA256SUMS.txt** lets you verify both files.
+
+## ✨ What's new in 1.1
+
+- **Full-screen Settings**, iOS style: General, Tor network, Relay search and About
+- **Start with Windows** (off by default): opens hidden in the tray
+- **Relay search** by name, IP, fingerprint or country with Exit/Guard filters and full relay details
+- **Network stats** from the local consensus: relays, exits, guards, countries, total bandwidth and top version
 
 Made by [NetCat Test](https://netcattest.com) · MIT License

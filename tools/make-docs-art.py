@@ -44,7 +44,7 @@ T = {
         "veil": "Veil.exe",
         "veil_sub": "C# · WPF · .NET Framework 4.8",
         "veil_items": [("Interface de vidro", "WPF + acrílico do Windows 11"), ("Recursos embutidos", "tor.zip · 252 bandeiras · países"),
-                       ("Bandeja do sistema", "menu próprio com status ao vivo"), ("Configurações", "%LOCALAPPDATA%\\Veil")],
+                       ("Bandeja do sistema", "menu próprio com status ao vivo"), ("Pesquisa de relays", "consenso + GeoIP locais")],
         "launch": "1 · extrai o Tor, gera o torrc e inicia",
         "launch2": "tor.exe dentro de um Job Object",
         "stdout": "log + progresso do bootstrap",
@@ -67,7 +67,7 @@ T = {
         "moat_sub": "API Moat (HTTPS)",
         "moat_note": "única consulta externa · só ao clicar em Buscar",
         "legend_moat": "Moat · só ao clicar em Buscar",
-        "footer": "Bandeiras, nomes de países e GeoIP vêm embutidos. A contagem de saídas por país é calculada a partir do consenso local do Tor.",
+        "footer": "Bandeiras, nomes e GeoIP vêm embutidos. Saídas por país, dados da rede e pesquisa de relays saem do consenso local do Tor.",
     },
     "en": {
         "title": "How Veil works",
@@ -75,7 +75,7 @@ T = {
         "veil": "Veil.exe",
         "veil_sub": "C# · WPF · .NET Framework 4.8",
         "veil_items": [("Glass interface", "WPF + Windows 11 acrylic"), ("Embedded resources", "tor.zip · 252 flags · countries"),
-                       ("System tray", "custom menu with live status"), ("Settings", "%LOCALAPPDATA%\\Veil")],
+                       ("System tray", "custom menu with live status"), ("Relay search", "local consensus + GeoIP")],
         "launch": "1 · extracts Tor, writes torrc, starts it",
         "launch2": "tor.exe inside a Job Object",
         "stdout": "log + bootstrap progress",
@@ -98,7 +98,7 @@ T = {
         "moat_sub": "Moat API (HTTPS)",
         "moat_note": "the only external request · only when you click Fetch",
         "legend_moat": "Moat · only when you click Fetch",
-        "footer": "Flags, country names and GeoIP are embedded. Exit counts per country are computed from Tor's local consensus.",
+        "footer": "Flags, names and GeoIP are embedded. Exit counts, network stats and relay search come from Tor's local consensus.",
     },
 }
 
@@ -173,7 +173,7 @@ def architecture(lang):
     vx, vy, vw, vh = 48, 140, 300, 560
     o.append(card(vx, vy, vw, vh, t["veil"], t["veil_sub"]))
     icons = ["M4,5 H20 V15 H4 Z M8,20 H16 M12,15 V20", "M4,7 L12,3 L20,7 V17 L12,21 L4,17 Z M4,7 L12,11 L20,7 M12,11 V21",
-             "M3,17 H21 M6,17 V9 A6,6 0 0 1 18,9 V17 M10,20 H14", "M12,8 A4,4 0 1 0 12.01,8 Z M12,2 V5 M12,19 V22 M2,12 H5 M19,12 H22"]
+             "M3,17 H21 M6,17 V9 A6,6 0 0 1 18,9 V17 M10,20 H14", "M10.5,3 A7.5,7.5 0 1 0 10.51,3 Z M16,16 L21,21"]
     colors = ["#3478F6", "#8E5BD9", "#30B158", "#FF9F0A"]
     for i, (a, b) in enumerate(t["veil_items"]):
         y = vy + 92 + i * 112

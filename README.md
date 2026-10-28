@@ -10,7 +10,7 @@
 [![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-7B45D6?style=flat-square&logo=windows11&logoColor=white)](#requisitos)
 [![.NET](https://img.shields.io/badge/.NET%20Framework-4.8-9B5DE5?style=flat-square)](#stack)
 [![Tor](https://img.shields.io/badge/Tor-0.4.9.14-7D4698?style=flat-square&logo=torproject&logoColor=white)](https://www.torproject.org)
-[![Versão](https://img.shields.io/badge/vers%C3%A3o-1.0-30D158?style=flat-square)](#)
+[![Versão](https://img.shields.io/badge/vers%C3%A3o-1.1-30D158?style=flat-square)](#)
 [![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-0A84FF?style=flat-square)](LICENSE)
 [![Build](https://github.com/netcattest/veil/actions/workflows/build.yml/badge.svg)](https://github.com/netcattest/veil/actions/workflows/build.yml)
 
@@ -45,9 +45,13 @@ Sem instalador, sem dependências e sem telemetria. A única conexão que o app 
 | 🔄 **Novo circuito** | Pede uma nova identidade (`NEWNYM`) e mostra o circuito novo |
 | 🌉 **Pontes** | obfs4, Snowflake e meek embutidas, ou **Personalizada**: busque obfs4/webtunnel do site oficial ou cole os dados da ponte |
 | 📈 **Tráfego** | Download/upload por segundo, totais e um gráfico leve dos últimos 60 s |
+| 🔎 **Pesquisa de relays** | Busque qualquer um dos ~9 mil relays por nome, IP, fingerprint ou país, filtre por Saída/Guarda e veja flags, banda, IPv6, versão e fingerprint |
+| 📊 **Dados da rede** | Total de relays, saídas, guardas, países, banda total da rede e versão do Tor mais usada |
 | 🗂️ **Bandeja** | Fechar mantém o Veil rodando; botão direito abre um menu de vidro com status, país, IP de saída e tráfego |
+| 🚀 **Iniciar com o Windows** | Opcional (desligado por padrão): abre escondido na bandeja ao entrar no Windows |
+| 📦 **Instalador** | `Veil-Setup.exe` instala sem administrador, cria atalhos e aparece em *Aplicativos instalados* |
 | 🌐 **Idiomas** | Português e English, automático pelo idioma do sistema |
-| 🫧 **Visual** | Acrílico real do Windows 11, cartões "liquid glass", splash com o logo se desenhando, animação de abrir/fechar e efeito geleia ao arrastar |
+| 🫧 **Visual** | Acrílico real do Windows 11, cartões "liquid glass", Ajustes em tela cheia no estilo iOS, splash com o logo se desenhando, animação de abrir/fechar e efeito geleia ao arrastar |
 
 ## 📸 Telas
 
@@ -58,6 +62,8 @@ Sem instalador, sem dependências e sem telemetria. A única conexão que o app 
 | <img src="docs/screenshots/pt/home.png" width="240"> | <img src="docs/screenshots/pt/circuit.png" width="240"> | <img src="docs/screenshots/pt/countries.png" width="240"> |
 | **Pontes** | **Registro** | **Ajustes** |
 | <img src="docs/screenshots/pt/bridges.png" width="240"> | <img src="docs/screenshots/pt/log.png" width="240"> | <img src="docs/screenshots/pt/settings.png" width="240"> |
+| **Pesquisa de relays** | **Instalador** | |
+| <img src="docs/screenshots/pt/relays.png" width="240"> | <img src="docs/screenshots/pt/setup.png" width="240"> | |
 
 </div>
 
@@ -83,11 +89,12 @@ Sem instalador, sem dependências e sem telemetria. A única conexão que o app 
 | `SIGNAL NEWNYM` | novo circuito |
 
 5. **Seus apps** usam o proxy `socks5://127.0.0.1:9050` (ou a porta que você escolher).
+6. **Ajustes → Rede Tor e Pesquisa de relays**: o Veil lê direto o consenso que o Tor salvou em disco (`cached-microdesc-consensus`) e descobre o país de cada IP com o arquivo `geoip` embutido. Por isso funciona mesmo com o Tor desligado, desde que você já tenha conectado uma vez.
 
 ### 🔒 Privacidade
 
 - **Nenhuma consulta externa** do próprio Veil, com uma exceção: a busca de pontes, que acontece **só quando você clica em "Buscar do site"**. Ela usa a API oficial **Moat** do `bridges.torproject.org` (a mesma do Tor Browser, sem CAPTCHA).
-- Bandeiras, nomes de países e GeoIP já vêm **embutidos**.
+- Bandeiras, nomes de países e GeoIP já vêm **embutidos**. A pesquisa de relays e os dados da rede usam só arquivos locais.
 - Configurações e cache do Tor ficam em `%LOCALAPPDATA%\Veil`. Para apagar tudo, basta remover essa pasta.
 
 > [!IMPORTANT]
@@ -115,8 +122,6 @@ Sem instalador, sem dependências e sem telemetria. A única conexão que o app 
 ```bash
 curl --socks5-hostname 127.0.0.1:9050 https://check.torproject.org/api/ip
 ```
-
-<div align="center"><img src="docs/screenshots/pt/setup.png" width="300" alt="Instalador"></div>
 
 > O SmartScreen pode avisar na primeira execução porque o executável ainda não é assinado: clique em **Mais informações → Executar assim mesmo**. Os hashes SHA-256 de cada versão vêm no arquivo `SHA256SUMS.txt` da Release.
 
@@ -199,6 +204,6 @@ O código do Veil é distribuído sob a licença [MIT](LICENSE). O Tor e os dema
 
 <img src="docs/logo.svg" width="44" alt="">
 
-**Veil 1.0** · Criado por **[NetCat Test](https://netcattest.com)**
+**Veil 1.1** · Criado por **[NetCat Test](https://netcattest.com)**
 
 </div>

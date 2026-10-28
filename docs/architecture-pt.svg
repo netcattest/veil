@@ -69,9 +69,9 @@
 <text x="138" y="518" class="is">menu próprio com status ao vivo</text>
 <rect x="66" y="568" width="264" height="92" rx="16" fill="#FFFFFF" fill-opacity="0.05" stroke="#FFFFFF" stroke-opacity="0.08"/>
 <rect x="82" y="594" width="40" height="40" rx="10" fill="#FF9F0A"/>
-<g transform="translate(90 602) scale(1)"><path d="M12,8 A4,4 0 1 0 12.01,8 Z M12,2 V5 M12,19 V22 M2,12 H5 M19,12 H22" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
-<text x="138" y="610" class="i">Configurações</text>
-<text x="138" y="630" class="is">%LOCALAPPDATA%\Veil</text>
+<g transform="translate(90 602) scale(1)"><path d="M10.5,3 A7.5,7.5 0 1 0 10.51,3 Z M16,16 L21,21" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="138" y="610" class="i">Pesquisa de relays</text>
+<text x="138" y="630" class="is">consenso + GeoIP locais</text>
 <g><rect x="392" y="140" width="270" height="118" rx="22" fill="url(#glass)" stroke="url(#rim)" stroke-width="1.2" filter="url(#shadow)"/>
 <rect x="410" y="160" width="4" height="34" rx="2" fill="#FF9F0A"/>
 <text x="424" y="176" class="h">bridges.torproject.org</text>
@@ -174,5 +174,5 @@
 <text x="712.0" y="775" class="s">SOCKS5</text>
 <line x1="790.4" y1="770" x2="816.4" y2="770" stroke="#FF9F0A" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5"/>
 <text x="826.4" y="775" class="s">Moat · só ao clicar em Buscar</text>
-<text x="76" y="808" class="f">Bandeiras, nomes de países e GeoIP vêm embutidos. A contagem de saídas por país é calculada a partir do consenso local do Tor.</text>
+<text x="76" y="808" class="f">Bandeiras, nomes e GeoIP vêm embutidos. Saídas por país, dados da rede e pesquisa de relays saem do consenso local do Tor.</text>
 </svg>

@@ -10,7 +10,7 @@
 [![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-7B45D6?style=flat-square&logo=windows11&logoColor=white)](#requirements)
 [![.NET](https://img.shields.io/badge/.NET%20Framework-4.8-9B5DE5?style=flat-square)](#stack)
 [![Tor](https://img.shields.io/badge/Tor-0.4.9.14-7D4698?style=flat-square&logo=torproject&logoColor=white)](https://www.torproject.org)
-[![Version](https://img.shields.io/badge/version-1.0-30D158?style=flat-square)](#)
+[![Version](https://img.shields.io/badge/version-1.1-30D158?style=flat-square)](#)
 [![License](https://img.shields.io/badge/license-MIT-0A84FF?style=flat-square)](LICENSE)
 [![Build](https://github.com/netcattest/veil/actions/workflows/build.yml/badge.svg)](https://github.com/netcattest/veil/actions/workflows/build.yml)
 
@@ -45,9 +45,13 @@ No installer, no dependencies, no telemetry. The only connection Veil makes on i
 | 🔄 **New circuit** | Requests a new identity (`NEWNYM`) and shows the new circuit |
 | 🌉 **Bridges** | Built-in obfs4, Snowflake and meek, or **Custom**: fetch obfs4/webtunnel from the official site or paste bridge lines |
 | 📈 **Traffic** | Download/upload per second, totals and a lightweight 60-second chart |
+| 🔎 **Relay search** | Search any of the ~9,000 relays by name, IP, fingerprint or country, filter by Exit/Guard and see flags, bandwidth, IPv6, version and fingerprint |
+| 📊 **Network stats** | Total relays, exits, guards, countries, total network bandwidth and the most common Tor version |
 | 🗂️ **Tray** | Closing keeps Veil running; right-click opens a glass menu with status, country, exit IP and traffic |
+| 🚀 **Start with Windows** | Optional (off by default): opens hidden in the tray when you sign in |
+| 📦 **Installer** | `Veil-Setup.exe` installs without admin, creates shortcuts and shows up in *Installed apps* |
 | 🌐 **Languages** | Portuguese and English, automatic from the system language |
-| 🫧 **Look & feel** | Real Windows 11 acrylic, "liquid glass" cards, a splash where the logo draws itself, open/close animations and a jelly effect when dragging |
+| 🫧 **Look & feel** | Real Windows 11 acrylic, "liquid glass" cards, iOS-style full-screen Settings, a splash where the logo draws itself, open/close animations and a jelly effect when dragging |
 
 ## 📸 Screens
 
@@ -58,6 +62,8 @@ No installer, no dependencies, no telemetry. The only connection Veil makes on i
 | <img src="docs/screenshots/en/home.png" width="240"> | <img src="docs/screenshots/en/circuit.png" width="240"> | <img src="docs/screenshots/en/countries.png" width="240"> |
 | **Bridges** | **Log** | **Settings** |
 | <img src="docs/screenshots/en/bridges.png" width="240"> | <img src="docs/screenshots/en/log.png" width="240"> | <img src="docs/screenshots/en/settings.png" width="240"> |
+| **Relay search** | **Installer** | |
+| <img src="docs/screenshots/en/relays.png" width="240"> | <img src="docs/screenshots/en/setup.png" width="240"> | |
 
 </div>
 
@@ -83,11 +89,12 @@ No installer, no dependencies, no telemetry. The only connection Veil makes on i
 | `SIGNAL NEWNYM` | new circuit |
 
 5. **Your apps** use the `socks5://127.0.0.1:9050` proxy (or whichever port you chose).
+6. **Settings → Tor network and Relay search**: Veil reads the consensus Tor saved to disk (`cached-microdesc-consensus`) and looks up each IP's country with the embedded `geoip` file. That's why it works even with Tor off, as long as you've connected once.
 
 ### 🔒 Privacy
 
 - **No external requests** from Veil itself, with one exception: fetching bridges, which happens **only when you click "Fetch from site"**. It uses the official **Moat** API at `bridges.torproject.org` (the same one Tor Browser uses, no CAPTCHA).
-- Flags, country names and GeoIP are **embedded**.
+- Flags, country names and GeoIP are **embedded**. Relay search and network stats only use local files.
 - Settings and Tor's cache live in `%LOCALAPPDATA%\Veil`. Delete that folder to remove everything.
 
 > [!IMPORTANT]
@@ -197,6 +204,6 @@ Veil's code is released under the [MIT](LICENSE) license. Tor and the other embe
 
 <img src="docs/logo.svg" width="44" alt="">
 
-**Veil 1.0** · Made by **[NetCat Test](https://netcattest.com)**
+**Veil 1.1** · Made by **[NetCat Test](https://netcattest.com)**
 
 </div>
